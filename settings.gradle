@@ -1,0 +1,2 @@
+include 'DaoCore', 'DaoGenerator'
+// include 'DaoTest' // Travis needs some Android setup for this
