@@ -1,0 +1,50 @@
+apply plugin: 'java'
+
+
+repositories {
+    mavenCentral()
+}
+
+// provided is not supported in Gradle 1.4, see http://issues.gradle.org/browse/GRADLE-784
+// Like this, it won't appear at all in the POM
+configurations {
+    provided
+    deployerJars
+}
+
+dependencies {
+    compile ('org.freemarker:freemarker:2.3.20')
+    testCompile 'junit:junit:4.11'
+    deployerJars 'org.apache.maven.wagon:wagon-webdav:1.0-beta-2'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'src-template'
+        }
+    }
+    test {
+        java {
+            srcDir 'src-test'
+        }
+    }
+}
+
+test {
+    doFirst {
+        mkdir 'test-out'
+    }
+    doLast{
+        delete 'test-out'
+    }
+}
+
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
+}
