@@ -1,4 +1,9 @@
 apply plugin: 'java'
+apply plugin: 'maven'
+
+
+version '0.0.1'
+group 'me.add1'
 
 
 repositories {
@@ -45,6 +50,18 @@ test {
 
 artifacts {
     archives jar
-    archives javadocJar
-    archives sourcesJar
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('http://nexus.add1.me:8101/nexus/content/repositories/thirdparty/')) {
+                authentication(userName: 'admin', password: 'admin123')
+            }
+            snapshotRepository(url: uri('http://nexus.add1.me:8101/nexus/content/repositories/thirdparty/')) {
+                authentication(userName: 'admin', password: 'admin123')
+            }
+        }
+    }
 }
