@@ -32,6 +32,7 @@ import java.util.Map;
 public class Schema {
     private final int version;
     private final String name;
+    private final String outputName;
     private final String defaultJavaPackage;
     private String defaultJavaPackageDao;
     private String defaultJavaPackageTest;
@@ -43,8 +44,13 @@ public class Schema {
     private boolean useActiveEntitiesByDefault;
 
     public Schema(int version, String name, String defaultJavaPackage) {
+        this(version, name,null, defaultJavaPackage);
+    }
+
+    public Schema(int version, String name, String outputName, String defaultJavaPackage){
         this.version = version;
         this.name = name;
+        this.outputName = outputName;
         this.defaultJavaPackage = defaultJavaPackage;
         this.entities = new ArrayList<Entity>();
         initTypeMappings();
@@ -138,6 +144,10 @@ public class Schema {
 
     public int getVersion() {
         return version;
+    }
+
+    public String getOutputName() {
+        return outputName;
     }
 
     public String getName() {return name;}

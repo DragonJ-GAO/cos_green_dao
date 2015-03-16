@@ -26,7 +26,7 @@ package ${entity.javaPackage};
 import java.util.List;
 </#if>
 <#if entity.active>
-import ${schema.defaultJavaPackageDao}.${schema.name}Session;
+import ${schema.defaultJavaPackageDao}.<#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session;
 import de.greenrobot.dao.DaoException;
 
 </#if>
@@ -61,7 +61,7 @@ as ifc>${ifc}<#if ifc_has_next>, </#if></#list></#if> {
 
 <#if entity.active>
     /** Used to resolve relations */
-    private transient ${schema.name}Session daoSession;
+    private transient <#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session daoSession;
 
     /** Used for active entity operations. */
     private transient ${entity.classNameDao} myDao;
@@ -108,7 +108,7 @@ property>${property.javaType} ${property.propertyName}<#if property_has_next>, <
 
 <#if entity.active>
     /** called by internal mechanisms, do not call yourself. */
-    public void __set${schema.name}Session(${schema.name}Session daoSession) {
+    public void __set<#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session(<#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.get${entity.classNameDao?cap_first}() : null;
     }

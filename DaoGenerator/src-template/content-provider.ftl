@@ -12,7 +12,7 @@ import android.text.TextUtils;
 
 import de.greenrobot.dao.DaoLog;
 
-import ${schema.defaultJavaPackageDao}.${schema.name}Session;
+import ${schema.defaultJavaPackageDao}.<#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session;
 import ${entity.javaPackageDao}.${entity.classNameDao};
 
 /* Copy this code snippet into your AndroidManifest.xml inside the
@@ -53,12 +53,12 @@ import ${entity.javaPackageDao}.${entity.classNameDao};
     * This must be set from outside, it's recommended to do this inside your Application object.
     * Subject to change (static isn't nice).
     */
-    public static ${schema.name}Session daoSession;
+    public static <#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session daoSession;
 
     @Override
     public boolean onCreate() {
         // if(daoSession == null) {
-        // throw new IllegalStateException("${schema.name}Session must be set before content provider is created");
+        // throw new IllegalStateException("<#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session must be set before content provider is created");
         // }
         DaoLog.d("Content Provider started: " + CONTENT_URI);
         return true;
@@ -66,7 +66,7 @@ import ${entity.javaPackageDao}.${entity.classNameDao};
 
     protected SQLiteDatabase getDatabase() {
         if(daoSession == null) {
-        throw new IllegalStateException("${schema.name}Session must be set during content provider is active");
+        throw new IllegalStateException("<#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session must be set during content provider is active");
         }
         return daoSession.getDatabase();
     }

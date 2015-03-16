@@ -49,7 +49,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 </#if>
 
 <#if entity.javaPackageDao != schema.defaultJavaPackageDao>
-import ${schema.defaultJavaPackageDao}.${schema.name}Session;
+import ${schema.defaultJavaPackageDao}.<#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session;
 
 </#if>
 <#if entity.additionalImportsDao?has_content>
@@ -82,7 +82,7 @@ public class ${entity.classNameDao} extends <#if entity.toOneRelations?has_conte
     };
 
 <#if entity.active>
-    private ${schema.name}Session daoSession;
+    private <#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session daoSession;
 
 </#if>
 <#list entity.incomingToManyRelations as toMany>
@@ -93,7 +93,7 @@ public class ${entity.classNameDao} extends <#if entity.toOneRelations?has_conte
         super(config);
     }
     
-    public ${entity.classNameDao}(DaoConfig config, ${schema.name}Session daoSession) {
+    public ${entity.classNameDao}(DaoConfig config, <#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session daoSession) {
         super(config, daoSession);
 <#if entity.active>        
         this.daoSession = daoSession;
@@ -168,7 +168,7 @@ as property>${property.columnName}<#if property_has_next>,</#if></#list>);");
     @Override
     protected void attachEntity(${entity.className} entity) {
         super.attachEntity(entity);
-        entity.__set${schema.name}Session(daoSession);
+        entity.__set<#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session(daoSession);
     }
 
 </#if>

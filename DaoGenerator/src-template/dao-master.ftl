@@ -39,7 +39,7 @@ import ${entity.javaPackageDao}.${entity.classNameDao};
 /** 
  * Master of DAO (schema version ${schema.version}): knows all DAOs.
 */
-public class ${schema.name}Master extends AbstractDaoMaster {
+public class <#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Master extends AbstractDaoMaster {
     public static final int SCHEMA_VERSION = ${schema.version};
 
     /** Creates underlying database table using DAOs. */
@@ -87,19 +87,19 @@ public class ${schema.name}Master extends AbstractDaoMaster {
         }
     }
 
-    public ${schema.name}Master(SQLiteDatabase db) {
+    public <#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Master(SQLiteDatabase db) {
         super(db, SCHEMA_VERSION);
 <#list schema.entities as entity>
         registerDaoClass(${entity.classNameDao}.class);
 </#list>
     }
     
-    public ${schema.name}Session newSession() {
-        return new ${schema.name}Session(db, IdentityScopeType.Session, daoConfigMap);
+    public <#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session newSession() {
+        return new <#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session(db, IdentityScopeType.Session, daoConfigMap);
     }
     
-    public ${schema.name}Session newSession(IdentityScopeType type) {
-        return new ${schema.name}Session(db, type, daoConfigMap);
+    public <#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session newSession(IdentityScopeType type) {
+        return new <#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session(db, type, daoConfigMap);
     }
     
 }
