@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 
-version '0.0.7'
+version '0.0.9'
 group 'me.add1'
 
 

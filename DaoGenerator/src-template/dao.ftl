@@ -85,9 +85,6 @@ public class ${entity.classNameDao} extends <#if entity.toOneRelations?has_conte
     private <#if schema.outputName??>${schema.outputName}<#else>${schema.name}</#if>Session daoSession;
 
 </#if>
-<#list entity.incomingToManyRelations as toMany>
-    private Query<${toMany.targetEntity.className}> ${toMany.sourceEntity.className?uncap_first}_${toMany.name?cap_first}Query;
-</#list>
 
     public ${entity.classNameDao}(DaoConfig config) {
         super(config);
@@ -282,22 +279,15 @@ as property>${property.columnName}<#if property_has_next>,</#if></#list>);");
     /** Internal query to resolve the "${toMany.name}" to-many relationship of ${toMany.sourceEntity.className}. */
     public List<${toMany.targetEntity.className}> _query${toMany.sourceEntity.className?cap_first}_${toMany.name?cap_first}(<#--
     --><#list toMany.targetProperties as property>${property.javaType} ${property.propertyName}<#if property_has_next>, </#if></#list>) {
-        synchronized (this) {
-            if (${toMany.sourceEntity.className?uncap_first}_${toMany.name?cap_first}Query == null) {
-                QueryBuilder<${toMany.targetEntity.className}> queryBuilder = queryBuilder();
+        QueryBuilder<${toMany.targetEntity.className}> queryBuilder = queryBuilder();
 <#list toMany.targetProperties as property>
-                queryBuilder.where(Properties.${property.propertyName?cap_first}.eq(null));
+        queryBuilder.where(Properties.${property.propertyName?cap_first}.eq(${property.propertyName}));
 </#list>
 <#if toMany.order?has_content>
-                queryBuilder.orderRaw("${toMany.order}");
+        queryBuilder.orderRaw("${toMany.order}");
 </#if>
-                ${toMany.sourceEntity.className?uncap_first}_${toMany.name?cap_first}Query = queryBuilder.build();
-            }
-        }
-        Query<${toMany.targetEntity.className}> query = ${toMany.sourceEntity.className?uncap_first}_${toMany.name?cap_first}Query.forCurrentThread();
-<#list toMany.targetProperties as property>
-        query.setParameter(${property_index}, ${property.propertyName});
-</#list>
+        Query<${toMany.targetEntity.className}> query = queryBuilder.build().forCurrentThread();
+
         return query.list();
     }
 
